@@ -6,7 +6,7 @@ import okhttp3.Request;
 
 public final class AstraApi {
     private static AstraApi INSTANCE;
-    private static String API_KEY;
+
     private static Request.Builder builder;
     private final OkHttpClient client = new OkHttpClient();
     private final String baseUrl = "https://api.astradev.xyz/v3/";
@@ -17,17 +17,12 @@ public final class AstraApi {
     public synchronized static AstraApi getInstance(String apiKey) {
         if(INSTANCE == null) {
             INSTANCE = new AstraApi();
+            builder = new Request.Builder().addHeader("x-auth-key", apiKey);
         }
-        API_KEY = apiKey;
-        builder = new Request.Builder().addHeader("x-auth-key", apiKey);
         return INSTANCE;
     }
     public String getBaseUrl() {
         return baseUrl;
-    }
-
-    public String getApiKey(){
-        return API_KEY;
     }
 
     public Api api = new Api(builder, client, baseUrl, JSON);
