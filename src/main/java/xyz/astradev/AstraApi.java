@@ -1,26 +1,37 @@
 package xyz.astradev;
 
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+
 public final class AstraApi {
     private static AstraApi INSTANCE;
-    private String API_KEY;
-
+    private static String API_KEY;
+    private static Request.Builder builder;
+    private final OkHttpClient client = new OkHttpClient();
+    private final String baseUrl = "https://api.astradev.xyz/v3/";
+    private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private AstraApi() { }
 
-    public synchronized static AstraApi getInstance() {
+
+    public synchronized static AstraApi getInstance(String apiKey) {
         if(INSTANCE == null) {
             INSTANCE = new AstraApi();
         }
+        API_KEY = apiKey;
+        builder = new Request.Builder().addHeader("x-auth-key", apiKey);
         return INSTANCE;
     }
     public String getBaseUrl() {
-        return "https://api.astradev.xyz/v3/";
+        return baseUrl;
     }
 
     public String getApiKey(){
-        return this.API_KEY;
+        return API_KEY;
     }
 
-    public void setApiKey(String ApiKey){
-        this.API_KEY = ApiKey;
-    }
+    public Api api = new Api(builder, client, baseUrl, JSON);
+    public Hash hash = new Hash(builder, client, baseUrl, JSON);
+    public Quiz quiz = new Quiz(builder, client, baseUrl, JSON);
+    public Website website = new Website(builder, client, baseUrl, JSON);
 }
