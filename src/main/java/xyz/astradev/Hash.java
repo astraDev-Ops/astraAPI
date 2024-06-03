@@ -7,13 +7,13 @@ import xyz.astradev.objects.Message;
 
 import java.io.IOException;
 
-class Hash {
+public class Hash {
     OkHttpClient client;
     Request.Builder builder;
     StringBuilder baseUrl = new StringBuilder();
     MediaType JSON;
 
-    public Hash(@NotNull Request.Builder builder, @NotNull OkHttpClient client, @NotNull String baseUrl, @NotNull MediaType JSON) {
+    protected Hash(@NotNull Request.Builder builder, @NotNull OkHttpClient client, @NotNull String baseUrl, @NotNull MediaType JSON) {
         this.builder = builder;
         this.client = client;
         this.baseUrl.append(baseUrl).append("file");

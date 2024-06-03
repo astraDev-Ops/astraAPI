@@ -8,13 +8,13 @@ import xyz.astradev.objects.Message;
 
 import java.io.IOException;
 
-class Api {
+public class Api {
     OkHttpClient client;
     Request.Builder builder;
     StringBuilder baseUrl = new StringBuilder();
     MediaType JSON;
 
-    public Api(@NotNull Request.Builder builder, @NotNull OkHttpClient client, @NotNull String baseUrl, @NotNull MediaType JSON){
+    protected Api(@NotNull Request.Builder builder, @NotNull OkHttpClient client, @NotNull String baseUrl, @NotNull MediaType JSON){
         this.builder = builder;
         this.client = client;
         this.baseUrl.append(baseUrl).append("api");
