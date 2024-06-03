@@ -21,7 +21,7 @@ public class Website {
         this.JSON = JSON;
     }
 
-    public Website[] get(@NotNull String... url) throws IOException {
+    public xyz.astradev.objects.Website[] get(@NotNull String... url) throws IOException {
         baseUrl.append("?query=").append(url[0]);
         for (int i = 1; i < url.length; i++) {
             baseUrl.append(",").append(url[i]);
@@ -31,7 +31,7 @@ public class Website {
         try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful()) {
                 if (response.body() != null) {
-                    return new Gson().fromJson(response.body().string(), Website[].class);
+                    return new Gson().fromJson(response.body().string(), xyz.astradev.objects.Website[].class);
                 }
                 return null;
             } else {
@@ -43,14 +43,14 @@ public class Website {
             }
         }
     }
-    public Website[] getPage(long page) throws IOException {
+    public xyz.astradev.objects.Website[] getPage(long page) throws IOException {
         baseUrl.append("?page=").append(page);
         builder.url(baseUrl.toString()).get();
         Request request = builder.build();
         try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful()) {
                 if (response.body() != null) {
-                    return new Gson().fromJson(response.body().string(), Website[].class);
+                    return new Gson().fromJson(response.body().string(), xyz.astradev.objects.Website[].class);
                 }
                 return null;
             } else {
