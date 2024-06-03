@@ -3,8 +3,8 @@ package xyz.astradev;
 import com.google.gson.Gson;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
-import xyz.astradev.objects.HashArray;
 import xyz.astradev.objects.Message;
+import xyz.astradev.objects.WebsiteArray;
 
 import java.io.IOException;
 
@@ -22,7 +22,7 @@ public class RouteWebsite {
         this.JSON = JSON;
     }
 
-    public HashArray get(@NotNull String... url) throws IOException {
+    public WebsiteArray get(@NotNull String... url) throws IOException {
         baseUrl.append("?query=").append(url[0]);
         for (int i = 1; i < url.length; i++) {
             baseUrl.append(",").append(url[i]);
@@ -32,7 +32,7 @@ public class RouteWebsite {
         try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful()) {
                 if (response.body() != null) {
-                    return new Gson().fromJson(response.body().string(), HashArray.class);
+                    return new Gson().fromJson(response.body().string(), WebsiteArray.class);
                 }
                 return null;
             } else {
@@ -44,14 +44,14 @@ public class RouteWebsite {
             }
         }
     }
-    public HashArray getPage(long page) throws IOException {
+    public WebsiteArray getPage(long page) throws IOException {
         baseUrl.append("?page=").append(page);
         builder.url(baseUrl.toString()).get();
         Request request = builder.build();
         try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful()) {
                 if (response.body() != null) {
-                    return new Gson().fromJson(response.body().string(), HashArray.class);
+                    return new Gson().fromJson(response.body().string(), WebsiteArray.class);
                 }
                 return null;
             } else {
