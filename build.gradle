@@ -3,14 +3,13 @@ plugins {
     id 'maven-publish'
 }
 
-group = 'com.github.astraDev-Ops'
-
 group = 'xyz.astradev'
 version = '1.0.0'
 sourceCompatibility = 17 // java 17
 targetCompatibility = 17
 repositories {
     mavenCentral()
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
