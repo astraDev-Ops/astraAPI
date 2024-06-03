@@ -8,13 +8,13 @@ import org.jetbrains.annotations.NotNull;
 public class RouteQuiz {
     OkHttpClient client;
     Request.Builder builder;
-    StringBuilder baseUrl = new StringBuilder();
+    String baseUrl;
     MediaType JSON;
 
     protected RouteQuiz(@NotNull String apiKey, @NotNull OkHttpClient client, @NotNull String baseUrl, @NotNull MediaType JSON) {
         this.builder = new Request.Builder().addHeader("x-auth-key", apiKey);
         this.client = client;
-        this.baseUrl.append(baseUrl).append("api");
+        this.baseUrl =baseUrl;
         this.JSON = JSON;
     }
     

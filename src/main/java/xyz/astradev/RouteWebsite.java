@@ -12,22 +12,23 @@ import java.io.IOException;
 public class RouteWebsite {
     OkHttpClient client;
     Request.Builder builder;
-    StringBuilder baseUrl = new StringBuilder();
+    String baseUrl;
     MediaType JSON;
 
     protected RouteWebsite(@NotNull String apiKey, @NotNull OkHttpClient client, @NotNull String baseUrl, @NotNull MediaType JSON) {
         this.builder = new Request.Builder().addHeader("x-auth-key", apiKey);
         this.client = client;
-        this.baseUrl.append(baseUrl).append("url");
+        this.baseUrl = baseUrl;
         this.JSON = JSON;
     }
 
     public WebsiteArray get(@NotNull String... url) throws IOException {
-        baseUrl.append("?query=").append(url[0]);
+        StringBuilder string = new StringBuilder();
+        string.append(baseUrl).append("url?query=").append(url[0]);
         for (int i = 1; i < url.length; i++) {
-            baseUrl.append(",").append(url[i]);
+            string.append(",").append(url[i]);
         }
-        builder.url(baseUrl.toString()).get();
+        builder.url(string.toString()).get();
         Request request = builder.build();
         try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful()) {
@@ -45,8 +46,7 @@ public class RouteWebsite {
         }
     }
     public WebsiteArray getPage(long page) throws IOException {
-        baseUrl.append("?page=").append(page);
-        builder.url(baseUrl.toString()).get();
+        builder.url(baseUrl + "url?page=" + page).get();
         Request request = builder.build();
         try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful()) {
@@ -65,7 +65,7 @@ public class RouteWebsite {
     }
     public int post(@NotNull String url, @NotNull String reason) throws IOException {
         RequestBody formBody = RequestBody.create("{\"url\":"+"\""+url+"\", \"reason\":"+"\""+reason+"\"}", JSON);
-        builder.url(baseUrl.toString()).post(formBody);
+        builder.url(baseUrl + "url").post(formBody);
         Request request = builder.build();
         try (Response response = client.newCall(request).execute()) {
             return response.code();
@@ -73,7 +73,7 @@ public class RouteWebsite {
     }
     public int patch(@NotNull String url, @NotNull String reason) throws IOException {
         RequestBody formBody = RequestBody.create("{\"url\":"+"\""+url+"\", \"reason\":"+"\""+reason+"\"}", JSON);
-        builder.url(baseUrl.toString()).patch(formBody);
+        builder.url(baseUrl + "url").patch(formBody);
         Request request = builder.build();
         try (Response response = client.newCall(request).execute()) {
             return response.code();

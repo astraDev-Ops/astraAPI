@@ -11,22 +11,23 @@ import java.io.IOException;
 public class RouteHash {
     OkHttpClient client;
     Request.Builder builder;
-    StringBuilder baseUrl = new StringBuilder();
+    String baseUrl;
     MediaType JSON;
 
     protected RouteHash(@NotNull String apiKey, @NotNull OkHttpClient client, @NotNull String baseUrl, @NotNull MediaType JSON) {
         this.builder = new Request.Builder().addHeader("x-auth-key", apiKey);
         this.client = client;
-        this.baseUrl.append(baseUrl).append("file");
+        this.baseUrl = baseUrl;
         this.JSON = JSON;
     }
 
     public HashArray get(@NotNull String... hash) throws IOException {
-        baseUrl.append("?query=").append(hash[0]);
+        StringBuilder string = new StringBuilder();
+        string.append(baseUrl).append("file?query=").append(hash[0]);
         for (int i = 1; i < hash.length; i++) {
-            baseUrl.append(",").append(hash[i]);
+            string.append(",").append(hash[i]);
         }
-        builder.url(baseUrl.toString()).get();
+        builder.url(string.toString()).get();
         Request request = builder.build();
         try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful()) {
@@ -44,8 +45,7 @@ public class RouteHash {
         }
     }
     public HashArray getPage(long page) throws IOException {
-        baseUrl.append("?page=").append(page);
-        builder.url(baseUrl.toString()).get();
+        builder.url(baseUrl + "file?page=" + page).get();
         Request request = builder.build();
         try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful()) {
@@ -64,7 +64,7 @@ public class RouteHash {
     }
     public int patch(@NotNull String sha256, String classification, Boolean sample_available) throws IOException {
         RequestBody formBody = RequestBody.create("{\"sha256\":"+"\""+sha256+"\", \"classification\":"+"\""+classification+"\", \"sample_available\":"+"\""+sample_available+"\" }", JSON);
-        builder.url(baseUrl.toString()).patch(formBody);
+        builder.url(baseUrl + "file").patch(formBody);
         Request request = builder.build();
         try (Response response = client.newCall(request).execute()) {
             return response.code();

@@ -11,19 +11,18 @@ import java.io.IOException;
 public class RouteApi {
     OkHttpClient client;
     Request.Builder builder;
-    StringBuilder baseUrl = new StringBuilder();
+    String baseUrl;
     MediaType JSON;
 
     protected RouteApi(@NotNull String apiKey, @NotNull OkHttpClient client, @NotNull String baseUrl, @NotNull MediaType JSON) {
         this.builder = new Request.Builder().addHeader("x-auth-key", apiKey);
         this.client = client;
-        this.baseUrl.append(baseUrl).append("api");
+        this.baseUrl = baseUrl;
         this.JSON = JSON;
     }
 
     public Message get(@NotNull String discord_id) throws IOException {
-        baseUrl.append("?query=").append(discord_id);
-        builder.url(baseUrl.toString()).get();
+        builder.url(baseUrl+ "api?query=" + discord_id).get();
         Request request = builder.build();
         try (Response response = client.newCall(request).execute()) {
             if (response.body() != null){
@@ -36,7 +35,7 @@ public class RouteApi {
     }
     public int post(@NotNull String discord_id) throws IOException {
         RequestBody formBody = RequestBody.create("{\"discord_id\":"+"\""+discord_id+"\"}", JSON);
-        builder.url(baseUrl.toString()).post(formBody);
+        builder.url(baseUrl+"api").post(formBody);
         Request request = builder.build();
         try (Response response = client.newCall(request).execute()) {
             return response.code();
@@ -44,7 +43,7 @@ public class RouteApi {
     }
     public Message patch(@NotNull String discord_id) throws IOException {
         RequestBody formBody = RequestBody.create("{\"discord_id\":" + "\"" + discord_id + "\"}", JSON);
-        builder.url(baseUrl.toString()).patch(formBody);
+        builder.url(baseUrl+"api").patch(formBody);
         Request request = builder.build();
         try (Response response = client.newCall(request).execute()) {
             if (response.body() != null) {
@@ -56,7 +55,7 @@ public class RouteApi {
     }
     public int delete(@NotNull String discord_id, String reason) throws IOException {
         RequestBody formBody = RequestBody.create("{\"discord_id\":"+"\""+discord_id+"\"}", JSON);
-        builder.url(baseUrl.toString()).post(formBody);
+        builder.url(baseUrl+"api").post(formBody);
         if (reason != null){
             builder.addHeader("x-audit-reason", reason);
         }
