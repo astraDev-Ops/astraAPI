@@ -43,5 +43,4 @@ bin/
 
 gradlew
 gradlew.*
-/gradle
-settings.gradle
+*.xml
