@@ -1,6 +1,9 @@
 plugins {
     id 'java'
 }
+apply plugin: 'maven'
+
+group = 'com.github.astraDev-Ops'
 
 group = 'xyz.astradev'
 version = '1.0.0'
