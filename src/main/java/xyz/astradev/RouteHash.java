@@ -3,24 +3,25 @@ package xyz.astradev;
 import com.google.gson.Gson;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
+import xyz.astradev.objects.HashArray;
 import xyz.astradev.objects.Message;
 
 import java.io.IOException;
 
-public class Hash {
+public class RouteHash {
     OkHttpClient client;
     Request.Builder builder;
     StringBuilder baseUrl = new StringBuilder();
     MediaType JSON;
 
-    protected Hash(@NotNull String apiKey, @NotNull OkHttpClient client, @NotNull String baseUrl, @NotNull MediaType JSON) {
+    protected RouteHash(@NotNull String apiKey, @NotNull OkHttpClient client, @NotNull String baseUrl, @NotNull MediaType JSON) {
         this.builder = new Request.Builder().addHeader("x-auth-key", apiKey);
         this.client = client;
         this.baseUrl.append(baseUrl).append("file");
         this.JSON = JSON;
     }
 
-    public xyz.astradev.objects.Hash[] get(@NotNull String... hash) throws IOException {
+    public HashArray get(@NotNull String... hash) throws IOException {
         baseUrl.append("?query=").append(hash[0]);
         for (int i = 1; i < hash.length; i++) {
             baseUrl.append(",").append(hash[i]);
@@ -30,7 +31,7 @@ public class Hash {
         try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful()) {
                 if (response.body() != null) {
-                    return new Gson().fromJson(response.body().string(), xyz.astradev.objects.Hash[].class);
+                    return new Gson().fromJson(response.body().string(), HashArray.class);
                 }
                 return null;
             } else {
@@ -42,14 +43,14 @@ public class Hash {
             }
         }
     }
-    public xyz.astradev.objects.Hash[] getPage(long page) throws IOException {
+    public HashArray getPage(long page) throws IOException {
         baseUrl.append("?page=").append(page);
         builder.url(baseUrl.toString()).get();
         Request request = builder.build();
         try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful()) {
                 if (response.body() != null) {
-                    return new Gson().fromJson(response.body().string(), xyz.astradev.objects.Hash[].class);
+                    return new Gson().fromJson(response.body().string(), HashArray.class);
                 }
                 return null;
             } else {

@@ -8,13 +8,13 @@ import xyz.astradev.objects.Message;
 
 import java.io.IOException;
 
-public class Api {
+public class RouteApi {
     OkHttpClient client;
     Request.Builder builder;
     StringBuilder baseUrl = new StringBuilder();
     MediaType JSON;
 
-    protected Api(@NotNull String apiKey, @NotNull OkHttpClient client, @NotNull String baseUrl, @NotNull MediaType JSON) {
+    protected RouteApi(@NotNull String apiKey, @NotNull OkHttpClient client, @NotNull String baseUrl, @NotNull MediaType JSON) {
         this.builder = new Request.Builder().addHeader("x-auth-key", apiKey);
         this.client = client;
         this.baseUrl.append(baseUrl).append("api");
