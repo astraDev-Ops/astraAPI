@@ -6,17 +6,17 @@ import okhttp3.OkHttpClient;
 public final class AstraApi {
     private static AstraApi INSTANCE;
     
-    private String apiKey = "";
+    private static String apiKey = "";
     private final OkHttpClient client = new OkHttpClient();
     private final String baseUrl = "https://api.astradev.xyz/v3/";
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-    private AstraApi(String apiKey) {
-        this.apiKey = apiKey;
+    private AstraApi() {
     }
 
-    public synchronized static AstraApi getInstance(String apiKey) {
+    public synchronized static AstraApi getInstance(String key) {
         if(INSTANCE == null) {
-            INSTANCE = new AstraApi(apiKey);
+            INSTANCE = new AstraApi();
+            apiKey = key;
         }
         return INSTANCE;
     }
