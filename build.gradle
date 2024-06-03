@@ -4,7 +4,8 @@ plugins {
 
 group = 'xyz.astradev'
 version = '1.0.0'
-
+sourceCompatibility = 17 // java 17
+targetCompatibility = 17
 repositories {
     mavenCentral()
 }
@@ -14,3 +15,7 @@ dependencies {
     implementation ('com.google.code.gson:gson:2.11.0')
 }
 
+wrapper {
+    gradleVersion = "8.5"
+    distributionType = Wrapper.DistributionType.ALL
+}
