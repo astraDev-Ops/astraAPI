@@ -23,6 +23,9 @@ public final class AstraApi {
     public String getBaseUrl() {
         return baseUrl;
     }
+    public String getApiKey(){
+        return apiKey;
+    }
 
     public Api api = new Api(apiKey, client, baseUrl, JSON);
     public Hash hash = new Hash(apiKey, client, baseUrl, JSON);
