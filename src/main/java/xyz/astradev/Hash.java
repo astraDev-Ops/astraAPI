@@ -13,8 +13,8 @@ public class Hash {
     StringBuilder baseUrl = new StringBuilder();
     MediaType JSON;
 
-    protected Hash(@NotNull Request.Builder builder, @NotNull OkHttpClient client, @NotNull String baseUrl, @NotNull MediaType JSON) {
-        this.builder = builder;
+    protected Hash(@NotNull String apiKey, @NotNull OkHttpClient client, @NotNull String baseUrl, @NotNull MediaType JSON) {
+        this.builder = new Request.Builder().addHeader("x-auth-key", apiKey);
         this.client = client;
         this.baseUrl.append(baseUrl).append("file");
         this.JSON = JSON;

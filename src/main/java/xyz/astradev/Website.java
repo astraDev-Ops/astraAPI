@@ -14,8 +14,8 @@ public class Website {
     StringBuilder baseUrl = new StringBuilder();
     MediaType JSON;
 
-    protected Website(@NotNull Request.Builder builder, @NotNull OkHttpClient client, @NotNull String baseUrl, @NotNull MediaType JSON) {
-        this.builder = builder;
+    protected Website(@NotNull String apiKey, @NotNull OkHttpClient client, @NotNull String baseUrl, @NotNull MediaType JSON) {
+        this.builder = new Request.Builder().addHeader("x-auth-key", apiKey);
         this.client = client;
         this.baseUrl.append(baseUrl).append("url");
         this.JSON = JSON;
