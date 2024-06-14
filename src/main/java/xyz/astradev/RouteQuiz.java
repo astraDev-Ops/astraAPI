@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import xyz.astradev.objects.Quiz;
 
 import java.io.IOException;
+import java.util.List;
 
 public class RouteQuiz {
     OkHttpClient client;
@@ -34,7 +35,7 @@ public class RouteQuiz {
         }
     }
 
-    public Quiz[] get(int amount, String category) throws IOException {
+    public List<Quiz> get(int amount, String category) throws IOException {
         if (amount <= 0 || amount >10){
             throw new IOException("Count must be <= 10");
         }
@@ -54,7 +55,7 @@ public class RouteQuiz {
             if (response.code() == 200){
                 if (response.body() != null) {
                     String body = response.body().string();
-                    return new Gson().fromJson(body, Quiz[].class);
+                    return List.of(new Gson().fromJson(body, Quiz[].class));
                 }
                 return null;
             }
@@ -62,7 +63,7 @@ public class RouteQuiz {
         }
     }
 
-    public long post(@NotNull String question, @NotNull String answer, @NotNull String wrongA, @NotNull String wrongB, @NotNull String wrongC, @NotNull String category, @NotNull String keywords) throws IOException {
+    public int post(@NotNull String question, @NotNull String answer, @NotNull String wrongA, @NotNull String wrongB, @NotNull String wrongC, @NotNull String category, @NotNull String keywords) throws IOException {
         Gson gson = new Gson();
         Quiz quiz = new Quiz(null, question,answer,wrongA,wrongB,wrongC,category,keywords);
         String json = gson.toJson(quiz);

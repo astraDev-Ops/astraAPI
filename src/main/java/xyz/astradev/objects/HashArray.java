@@ -1,5 +1,7 @@
 package xyz.astradev.objects;
 
+import java.util.List;
+
 public class HashArray {
-    public Hash[] data;
+    public List<Hash> data;
 }

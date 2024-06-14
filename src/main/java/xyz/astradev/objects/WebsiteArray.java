@@ -1,5 +1,7 @@
 package xyz.astradev.objects;
 
+import java.util.List;
+
 public class WebsiteArray {
-    public Website[] data;
+    public List<Website> data;
 }
